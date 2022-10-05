@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "a5aaf607-119c-48e9-a333-ca37270314ab",
+		"name": "eShop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CatalogBrands",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{app-url}}/webshoppingapigw/c/api/v1/catalog/catalogbrands",
+					"protocol": "http",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"webshoppingapigw",
+						"c",
+						"api",
+						"v1",
+						"catalog",
+						"catalogbrands"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CatalogTypes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{app-url}}/webshoppingapigw/c/api/v1/catalog/catalogtypes",
+					"protocol": "http",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"webshoppingapigw",
+						"c",
+						"api",
+						"v1",
+						"catalog",
+						"catalogtypes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "eShopWeb",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{app-url}}/",
+					"protocol": "http",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
