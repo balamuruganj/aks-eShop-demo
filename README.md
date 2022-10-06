@@ -13,4 +13,5 @@ Edit the deployment of eshop-webspa and eshop-catalog-api and assign the followi
 Run the following commands. 
 
 kubectl autoscale deployment eshop-webspa --cpu-percent=5 --min=1 --max=10
+
 kubectl autoscale deployment eshop-catalog-api --cpu-percent=5 --min=1 --max=10
