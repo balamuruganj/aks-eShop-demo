@@ -1,0 +1,51 @@
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: ilinkaksacrdemo.azurecr.io
+        username: ${{ secrets.acr_ilinkaksacrdemo_username }}
+        password: ${{ secrets.acr_ilinkaksacrdemo_password }}
+    
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build "$GITHUB_WORKSPACE/src/Web/WebSPA" -f  "src/Web/WebSPA/Dockerfile" -t ilinkaksacrdemo.azurecr.io/aksdemo:${{ github.sha }} --label dockerfile-path=src/Web/WebSPA/Dockerfile
+        docker push ilinkaksacrdemo.azurecr.io/aksdemo:${{ github.sha }}
+    
+    - uses: azure/k8s-set-context@v1
+      with:
+         kubeconfig: ${{ secrets.aks_aksdemo_kubeConfig }}
+      id: login
+    
+    - name: Create namespace
+      run: |
+        namespacePresent=`kubectl get namespace | grep aks-demo-ns | wc -l`
+        if [ $namespacePresent -eq 0 ]
+        then
+            echo `kubectl create namespace aks-demo-ns`
+        fi
+
+    - uses: azure/k8s-create-secret@v1
+      with:
+        namespace: aks-demo-ns
+        container-registry-url: ilinkaksacrdemo.azurecr.io
+        container-registry-username: ${{ secrets.acr_ilinkaksacrdemo_username }}
+        container-registry-password: ${{ secrets.acr_ilinkaksacrdemo_password }}
+        secret-name: aksdemodockerauth
+       
+    - uses: azure/k8s-deploy@v1.2
+      with:
+        namespace: aks-demo-ns
+        manifests: |
+          manifests/deployment.yml
+          manifests/service.yml
+          manifests/ingress.yml
+        images: |
+          ilinkaksacrdemo.azurecr.io/aksdemo:${{ github.sha }}
+        imagepullsecrets: |
+          aksdemodockerauth
