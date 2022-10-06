@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    name: "aksdemo-6a42"
+    labels:
+        app: "aksdemo-6a42"
+    annotations:
+        kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+    rules:
+        - host: aks-demo-ns-aksdemo-6a42.1a38a5014ec7484cb966.centralus.aksapp.io
+          http:
+            paths:
+            - path: /
+              backend:
+                serviceName: "aksdemo-6a42"
+                servicePort: 80
