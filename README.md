@@ -1,6 +1,6 @@
 Please refer the wiki section for the deployment. 
 
-To apply the HPA, please run the below in yourAKS console. 
+(Once you finished the deployment), to apply the HPA, please run the below in yourAKS console. 
 
 Edit the deployment of eshop-webspa and eshop-catalog-api and assign the following in the resource section. 
 
